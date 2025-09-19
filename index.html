@@ -93,8 +93,69 @@
     
     <div class="e-content article-entry" itemprop="articleBody">
       
-        <p><img src="/2025/09/19/%E8%AE%B0%E5%BD%95%E4%B8%80%E6%AC%A1%E7%AE%80%E5%8D%95%E7%9A%84ssti/%E8%AE%B0%E5%BD%95%E4%B8%80%E6%AC%A1%E7%AE%80%E5%8D%95%E7%9A%84ssti/1758278367839.png" alt="1758278367839"></p>
-<p>这是一个简单的ssti漏洞，首先我们找到了这个路由，并看到了模板渲染这么一个函数，以及一个rc4加密</p>
+        <p><img src="/2025/09/19/%E8%AE%B0%E5%BD%95%E4%B8%80%E6%AC%A1%E7%AE%80%E5%8D%95%E7%9A%84ssti/%E8%AE%B0%E5%BD%95%E4%B8%80%E6%AC%A1%E7%AE%80%E5%8D%95%E7%9A%84ssti/1758278367839.png" alt="1"></p>
+<p>这是一个简单的ssti漏洞，首先我们找到了这个路由，并看到了模板渲染这么一个函数，以及一个rc4加密。然后直接使用脚本，把RC4算法给弄出来。以下是脚本:<br>&#x2F;&#x2F;*<br>import base64</p>
+<p>from urllib.parse import quote</p>
+<p>defrc4_main(key&#x3D;”init_key”, message&#x3D;”init_message”):</p>
+<pre><code># print(&quot;RC4加密主函数&quot;)
+
+s_box=rc4_init_sbox(key)
+
+crypt=str(rc4_excrypt(message, s_box))
+
+return crypt
+</code></pre>
+<p>defrc4_init_sbox(key):</p>
+<pre><code>s_box=list(range(256))
+
+# print(&quot;原来的 s 盒：%s&quot; % s_box)
+
+j=0
+
+foriinrange(256):
+
+j= (j+s_box[i] +ord(key[i%len(key)])) %256
+
+s_box[i], s_box[j] =s_box[j], s_box[i]
+
+# print(&quot;混乱后的 s 盒：%s&quot;% s_box)
+
+return s_box
+</code></pre>
+<p>defrc4_excrypt(plain, box):</p>
+<pre><code># print(&quot;调用加密程序成功。&quot;)
+
+res= []
+
+i=j=0
+
+for s in plain:
+
+i= (i+1) %256
+
+j= (j+box[i]) %256
+
+box[i], box[j] =box[j], box[i]
+
+t= (box[i] +box[j]) %256
+
+k=box[t]
+
+res.append(chr(ord(s) ^k))
+
+# print(&quot;res用于加密字符串，加密后是：%res&quot; %res)
+
+cipher=&quot;&quot;.join(res)
+
+print(&quot;加密后的字符串是：%s&quot;%quote(cipher))
+
+# print(&quot;加密后的输出(经过编码):&quot;)
+
+# print(str(base64.b64encode(cipher.encode(&#39;utf-8&#39;)), &#39;utf-8&#39;))
+
+returnstr(base64.b64encode(cipher.encode(&#39;utf-8&#39;)), &#39;utf-8&#39;)
+</code></pre>
+<p>rc4_main(“key”, “text”)     #这里的key为HereIsTreasure   text为要写入的内容<br>*&#x2F;&#x2F;<br>这里直接构造payload:<br><img src="/2025/09/19/%E8%AE%B0%E5%BD%95%E4%B8%80%E6%AC%A1%E7%AE%80%E5%8D%95%E7%9A%84ssti/%E8%AE%B0%E5%BD%95%E4%B8%80%E6%AC%A1%E7%AE%80%E5%8D%95%E7%9A%84ssti/2.png" alt="2"></p>
         
           <p class="article-more-link">
             <a href="/2025/09/19/%E8%AE%B0%E5%BD%95%E4%B8%80%E6%AC%A1%E7%AE%80%E5%8D%95%E7%9A%84ssti/#more">Read More</a>
