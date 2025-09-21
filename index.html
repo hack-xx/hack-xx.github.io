@@ -1,347 +1,169 @@
-<!DOCTYPE html>
-<html>
-<head>
-  <meta charset="utf-8">
-  
-  
-  <title>Hexo</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-  <meta property="og:type" content="website">
+<!DOCTYPE html><html lang="en" data-theme="light"><head><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width, initial-scale=1.0,viewport-fit=cover"><title>Hexo</title><meta name="author" content="John Doe"><meta name="copyright" content="John Doe"><meta name="format-detection" content="telephone=no"><meta name="theme-color" content="#ffffff"><meta property="og:type" content="website">
 <meta property="og:title" content="Hexo">
 <meta property="og:url" content="http://example.com/index.html">
 <meta property="og:site_name" content="Hexo">
 <meta property="og:locale" content="en_US">
+<meta property="og:image" content="http://example.com/img/butterfly-icon.png">
 <meta property="article:author" content="John Doe">
 <meta name="twitter:card" content="summary">
-  
-    <link rel="alternate" href="/atom.xml" title="Hexo" type="application/atom+xml">
-  
-  
-    <link rel="shortcut icon" href="/favicon.png">
-  
-  
-  
-<link rel="stylesheet" href="/css/style.css">
+<meta name="twitter:image" content="http://example.com/img/butterfly-icon.png"><script type="application/ld+json">{
+  "@context": "https://schema.org",
+  "@type": "WebSite",
+  "name": "Hexo",
+  "alternateName": [
+    "example.com"
+  ],
+  "url": "http://example.com/"
+}</script><link rel="shortcut icon" href="/img/favicon.png"><link rel="canonical" href="http://example.com/index.html"><link rel="preconnect" href="//cdn.jsdelivr.net"/><link rel="preconnect" href="//busuanzi.ibruce.info"/><link rel="stylesheet" href="/css/index.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free/css/all.min.css"><script>
+    (() => {
+      
+    const saveToLocal = {
+      set: (key, value, ttl) => {
+        if (!ttl) return
+        const expiry = Date.now() + ttl * 86400000
+        localStorage.setItem(key, JSON.stringify({ value, expiry }))
+      },
+      get: key => {
+        const itemStr = localStorage.getItem(key)
+        if (!itemStr) return undefined
+        const { value, expiry } = JSON.parse(itemStr)
+        if (Date.now() > expiry) {
+          localStorage.removeItem(key)
+          return undefined
+        }
+        return value
+      }
+    }
 
+    window.btf = {
+      saveToLocal,
+      getScript: (url, attr = {}) => new Promise((resolve, reject) => {
+        const script = document.createElement('script')
+        script.src = url
+        script.async = true
+        Object.entries(attr).forEach(([key, val]) => script.setAttribute(key, val))
+        script.onload = script.onreadystatechange = () => {
+          if (!script.readyState || /loaded|complete/.test(script.readyState)) resolve()
+        }
+        script.onerror = reject
+        document.head.appendChild(script)
+      }),
+      getCSS: (url, id) => new Promise((resolve, reject) => {
+        const link = document.createElement('link')
+        link.rel = 'stylesheet'
+        link.href = url
+        if (id) link.id = id
+        link.onload = link.onreadystatechange = () => {
+          if (!link.readyState || /loaded|complete/.test(link.readyState)) resolve()
+        }
+        link.onerror = reject
+        document.head.appendChild(link)
+      }),
+      addGlobalFn: (key, fn, name = false, parent = window) => {
+        if (!false && key.startsWith('pjax')) return
+        const globalFn = parent.globalFn || {}
+        globalFn[key] = globalFn[key] || {}
+        globalFn[key][name || Object.keys(globalFn[key]).length] = fn
+        parent.globalFn = globalFn
+      }
+    }
   
+      
+      const activateDarkMode = () => {
+        document.documentElement.setAttribute('data-theme', 'dark')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#0d0d0d')
+        }
+      }
+      const activateLightMode = () => {
+        document.documentElement.setAttribute('data-theme', 'light')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#ffffff')
+        }
+      }
+
+      btf.activateDarkMode = activateDarkMode
+      btf.activateLightMode = activateLightMode
+
+      const theme = saveToLocal.get('theme')
     
-<link rel="stylesheet" href="/fancybox/jquery.fancybox.min.css">
-
+          theme === 'dark' ? activateDarkMode() : theme === 'light' ? activateLightMode() : null
+        
+      
+      const asideStatus = saveToLocal.get('aside-status')
+      if (asideStatus !== undefined) {
+        document.documentElement.classList.toggle('hide-aside', asideStatus === 'hide')
+      }
+    
+      
+    const detectApple = () => {
+      if (/iPad|iPhone|iPod|Macintosh/.test(navigator.userAgent)) {
+        document.documentElement.classList.add('apple')
+      }
+    }
+    detectApple()
   
-  
-<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/fork-awesome@1.2.0/css/fork-awesome.min.css">
-
-<meta name="generator" content="Hexo 7.3.0"></head>
-
-<body>
-  <div id="container">
-    <div id="wrap">
-      <header id="header">
-  <div id="banner"></div>
-  <div id="header-outer" class="outer">
-    <div id="header-title" class="inner">
-      <h1 id="logo-wrap">
-        <a href="/" id="logo">Hexo</a>
-      </h1>
+    })()
+  </script><script>const GLOBAL_CONFIG = {
+  root: '/',
+  algolia: undefined,
+  localSearch: undefined,
+  translate: undefined,
+  highlight: {"plugin":"highlight.js","highlightCopy":true,"highlightLang":true,"highlightHeightLimit":false,"highlightFullpage":false,"highlightMacStyle":false},
+  copy: {
+    success: 'Copy Successful',
+    error: 'Copy Failed',
+    noSupport: 'Browser Not Supported'
+  },
+  relativeDate: {
+    homepage: false,
+    post: false
+  },
+  runtime: '',
+  dateSuffix: {
+    just: 'Just now',
+    min: 'minutes ago',
+    hour: 'hours ago',
+    day: 'days ago',
+    month: 'months ago'
+  },
+  copyright: undefined,
+  lightbox: 'null',
+  Snackbar: undefined,
+  infinitegrid: {
+    js: 'https://cdn.jsdelivr.net/npm/@egjs/infinitegrid/dist/infinitegrid.min.js',
+    buttonText: 'Load More'
+  },
+  isPhotoFigcaption: false,
+  islazyloadPlugin: false,
+  isAnchor: false,
+  percent: {
+    toc: true,
+    rightside: false,
+  },
+  autoDarkmode: false
+}</script><script id="config-diff">var GLOBAL_CONFIG_SITE = {
+  title: 'Hexo',
+  isHighlightShrink: false,
+  isToc: false,
+  pageType: 'home'
+}</script><meta name="generator" content="Hexo 7.3.0"></head><body><div class="page" id="body-wrap"><header class="full_page" id="page-header"><nav id="nav"><span id="blog-info"><a class="nav-site-title" href="/"><span class="site-name">Hexo</span></a></span><div id="menus"></div></nav><div id="site-info"><h1 id="site-title">Hexo</h1></div><div id="scroll-down"><i class="fas fa-angle-down scroll-down-effects"></i></div></header><main class="layout" id="content-inner"><div class="recent-posts nc" id="recent-posts"><div class="recent-post-items"><div class="recent-post-item"><div class="recent-post-info no-cover"><a class="article-title" href="/2025/09/21/web%E5%A4%8D%E7%8E%B0/" title="web复现">web复现</a><div class="article-meta-wrap"><span class="post-meta-date"><i class="far fa-calendar-alt"></i><span class="article-meta-label">Created</span><time datetime="2025-09-21T13:22:29.000Z" title="Created 2025-09-21 21:22:29">2025-09-21</time></span></div><div class="content">这次的第七届江苏网络安全大赛的服务器真的烂的不行，附件全发群里，没进群的，或者不看群的就倒霉了，很明显，我就是其中之一QAQ。在那搞半天，跑字典，到最后我都天真以为是我字典不够强大… **ok,话不多说，开始正题：**  首先代码审计：  1234567891011121314151617181920const fs = require(&quot;fs&quot;);const SECRET_COOKIE = process.env.SECRET_COOKIE || &quot;this_is_testing_cookie&quot;  #cookie默认const flag1 = fs.readFileSync(&quot;/flag1&quot;)const flag2 = fs.readFileSync(&quot;/flag2&quot;)function LoginController(req,res) &#123;    try &#123;        const username = req.body.username        const passwor...</div></div></div><div class="recent-post-item"><div class="recent-post-info no-cover"><a class="article-title" href="/2025/09/19/%E8%AE%B0%E5%BD%95%E4%B8%80%E6%AC%A1%E7%AE%80%E5%8D%95%E7%9A%84ssti/" title="记录一次简单的ssti">记录一次简单的ssti</a><div class="article-meta-wrap"><span class="post-meta-date"><i class="far fa-calendar-alt"></i><span class="article-meta-label">Created</span><time datetime="2025-09-19T09:26:46.000Z" title="Created 2025-09-19 17:26:46">2025-09-19</time></span></div><div class="content"> 这是一个简单的ssti漏洞，首先我们找到了这个路由，并看到了模板渲染这么一个函数，以及一个rc4加密。然后直接使用脚本，把RC4算法给弄出来。以下是脚本: 1python  from urllib.parse import quote def rc4_main(key&#x3D;”init_key”, message&#x3D;”init_message”): # print(&quot;RC4加密主函数&quot;)  s_box=rc4_init_sbox(key)  crypt=str(rc4_excrypt(message, s_box))  return crypt  def rc4_init_sbox(key): s_box=list(range(256))  # print(&quot;原来的 s 盒：%s&quot; % s_box)  j=0  for i in range(256):  j= (j+s_box[i] +ord(key[i%len(key)])) %256  s_box[i], s_box[j] =s_box[j], s_box[i]  # p...</div></div></div></div></div><div class="aside-content" id="aside-content"><div class="card-widget card-info text-center"><div class="avatar-img"><img src="/img/butterfly-icon.png" onerror="this.onerror=null;this.src='/img/friend_404.gif'" alt="avatar"/></div><div class="author-info-name">John Doe</div><div class="author-info-description"></div><div class="site-data"><a href="/archives/"><div class="headline">Articles</div><div class="length-num">2</div></a><a href="/tags/"><div class="headline">Tags</div><div class="length-num">0</div></a><a href="/categories/"><div class="headline">Categories</div><div class="length-num">0</div></a></div><a id="card-info-btn" target="_blank" rel="noopener" href="https://github.com/xxxxxx"><i class="fab fa-github"></i><span>Follow Me</span></a></div><div class="card-widget card-announcement"><div class="item-headline"><i class="fas fa-bullhorn fa-shake"></i><span>Announcement</span></div><div class="announcement_content">This is my Blog</div></div><div class="sticky_layout"><div class="card-widget card-recent-post"><div class="item-headline"><i class="fas fa-history"></i><span>Recent Posts</span></div><div class="aside-list"><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/2025/09/21/web%E5%A4%8D%E7%8E%B0/" title="web复现">web复现</a><time datetime="2025-09-21T13:22:29.000Z" title="Created 2025-09-21 21:22:29">2025-09-21</time></div></div><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/2025/09/19/%E8%AE%B0%E5%BD%95%E4%B8%80%E6%AC%A1%E7%AE%80%E5%8D%95%E7%9A%84ssti/" title="记录一次简单的ssti">记录一次简单的ssti</a><time datetime="2025-09-19T09:26:46.000Z" title="Created 2025-09-19 17:26:46">2025-09-19</time></div></div></div></div><div class="card-widget card-archives">
+    <div class="item-headline">
+      <i class="fas fa-archive"></i>
+      <span>Archives</span>
       
     </div>
-    <div id="header-inner" class="inner">
-      <nav id="main-nav">
-        <a id="main-nav-toggle" class="nav-icon"><span class="fa fa-bars"></span></a>
-        
-          <a class="main-nav-link" href="/">Home</a>
-        
-          <a class="main-nav-link" href="/archives">Archives</a>
-        
-      </nav>
-      <nav id="sub-nav">
-        
-        
-          <a class="nav-icon" href="/atom.xml" title="RSS Feed"><span class="fa fa-rss"></span></a>
-        
-        <a class="nav-icon nav-search-btn" title="Search"><span class="fa fa-search"></span></a>
-      </nav>
-      <div id="search-form-wrap">
-        <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" class="search-form-input" placeholder="Search"><button type="submit" class="search-form-submit">&#xF002;</button><input type="hidden" name="sitesearch" value="http://example.com"></form>
-      </div>
-    </div>
-  </div>
-</header>
-
-      <div class="outer">
-        <section id="main">
   
-    <article id="post-web复现" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
-  <div class="article-meta">
-    <a href="/2025/09/21/web%E5%A4%8D%E7%8E%B0/" class="article-date">
-  <time class="dt-published" datetime="2025-09-21T13:22:29.000Z" itemprop="datePublished">2025-09-21</time>
-</a>
-    
-  </div>
-  <div class="article-inner">
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="p-name article-title" href="/2025/09/21/web%E5%A4%8D%E7%8E%B0/">web复现</a>
-    </h1>
-  
-
-      </header>
-    
-    <div class="e-content article-entry" itemprop="articleBody">
+    <ul class="card-archive-list">
       
-        <p>这次的第七届江苏网络安全大赛的服务器真的烂的不行，附件全发群里，没进群的，或者不看群的就倒霉了，很明显，我就是其中之一QAQ。在那搞半天，跑字典，到最后我都天真以为是我字典不够强大…</p>
-<pre><code>**ok,话不多说，开始正题：**
-
-首先代码审计：
-</code></pre>
-<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">const</span> fs = <span class="built_in">require</span>(<span class="string">&quot;fs&quot;</span>);</span><br><span class="line"><span class="keyword">const</span> <span class="variable constant_">SECRET_COOKIE</span> = process.<span class="property">env</span>.<span class="property">SECRET_COOKIE</span> || <span class="string">&quot;this_is_testing_cookie&quot;</span>  #cookie默认</span><br><span class="line"></span><br><span class="line"><span class="keyword">const</span> flag1 = fs.<span class="title function_">readFileSync</span>(<span class="string">&quot;/flag1&quot;</span>)</span><br><span class="line"><span class="keyword">const</span> flag2 = fs.<span class="title function_">readFileSync</span>(<span class="string">&quot;/flag2&quot;</span>)</span><br><span class="line"></span><br><span class="line"><span class="keyword">function</span> <span class="title function_">LoginController</span>(<span class="params">req,res</span>) &#123;</span><br><span class="line">    <span class="keyword">try</span> &#123;</span><br><span class="line">        <span class="keyword">const</span> username = req.<span class="property">body</span>.<span class="property">username</span></span><br><span class="line">        <span class="keyword">const</span> password = req.<span class="property">body</span>.<span class="property">password</span></span><br><span class="line">        <span class="keyword">if</span> (username !== <span class="string">&quot;admin&quot;</span> || password !== <span class="title class_">Math</span>.<span class="title function_">random</span>().<span class="title function_">toString</span>()) &#123;</span><br><span class="line">                        #这里有一个<span class="title function_">random</span>()函数，无法通过输入密码来跳过这个<span class="keyword">if</span>模块</span><br><span class="line">            res.<span class="title function_">status</span>(<span class="number">401</span>).<span class="title function_">type</span>(<span class="string">&quot;text/html&quot;</span>).<span class="title function_">send</span>(<span class="string">&quot;Login Failed&quot;</span>)</span><br><span class="line">        &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">            res.<span class="title function_">cookie</span>(<span class="string">&quot;user&quot;</span>,<span class="variable constant_">SECRET_COOKIE</span>)   #这里就是一个名为user的cookie，值为秘密</span><br><span class="line">            res.<span class="title function_">redirect</span>(<span class="string">&quot;/flag1&quot;</span>)</span><br><span class="line">        &#125;</span><br><span class="line">    &#125; <span class="keyword">catch</span> (__) &#123;&#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
-
-<p>这个图里面给了信息，让你用admin来登录</p>
-<p><img src="https://raw.githubusercontent.com/hack-xx/hu/main/img/2.png" alt="img"></p>
-<p>很容易想到，我们能用伪造admin来进行登录，怎么实现呢?</p>
-<p>添加一行Cookie:user&#x3D;admin</p>
-<p><img src="https://raw.githubusercontent.com/hack-xx/hu/main/img/1.png"></p>
-<p>获取到前半段flag</p>
-<p>好，我们再来看下一部分的代码：</p>
-<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">function</span> <span class="title function_">CheckController</span>(<span class="params">req,res</span>) &#123;</span><br><span class="line">    <span class="keyword">let</span> checkcode = req.<span class="property">body</span>.<span class="property">checkcode</span>?req.<span class="property">body</span>.<span class="property">checkcode</span>:<span class="number">1234</span>;  #checkcode默认为<span class="number">1234</span></span><br><span class="line">    <span class="keyword">if</span>(checkcode.<span class="property">length</span> === <span class="number">16</span>)&#123;  #严格比较字符串的长度</span><br><span class="line">        <span class="keyword">try</span>&#123;</span><br><span class="line">            checkcode = checkcode.<span class="title function_">toLowerCase</span>()  #把输入的checkcode强制转化为小写</span><br><span class="line">            <span class="keyword">if</span>(checkcode !== <span class="string">&quot;aGr5AtSp55dRacer&quot;</span>)&#123;   </span><br><span class="line">                res.<span class="title function_">status</span>(<span class="number">403</span>).<span class="title function_">json</span>(&#123;<span class="string">&quot;msg&quot;</span>:<span class="string">&quot;Invalid Checkcode:&quot;</span> + checkcode&#125;)</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;<span class="keyword">catch</span> (__) &#123;&#125;</span><br><span class="line">        res.<span class="title function_">status</span>(<span class="number">200</span>).<span class="title function_">type</span>(<span class="string">&quot;text/html&quot;</span>).<span class="title function_">json</span>(&#123;<span class="string">&quot;msg&quot;</span>:<span class="string">&quot;Flag2: &quot;</span> + flag2.<span class="title function_">toString</span>().<span class="title function_">trim</span>()&#125;)</span><br><span class="line">    &#125;<span class="keyword">else</span>&#123;</span><br><span class="line">        res.<span class="title function_">status</span>(<span class="number">403</span>).<span class="title function_">type</span>(<span class="string">&quot;text/html&quot;</span>).<span class="title function_">json</span>(&#123;<span class="string">&quot;msg&quot;</span>:<span class="string">&quot;Invalid Checkcode:&quot;</span> + checkcode&#125;)</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
-
-<p>这里我们可以用数组来绕过{“checkcode”:[1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16]}</p>
-<p>记得把Content-Type改成json,不然无法传递json参数</p>
-<h2 id="为什么数组可以绕过呢"><a href="#为什么数组可以绕过呢" class="headerlink" title="为什么数组可以绕过呢?"></a><img src="https://raw.githubusercontent.com/hack-xx/hu/main/img/12.png" alt="img">为什么数组可以绕过呢?</h2><h4 id="关键点1"><a href="#关键点1" class="headerlink" title="关键点1:"></a>关键点1:</h4><p>数组的<strong>length属性</strong></p>
-<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">const</span> arr = [<span class="string">&#x27;a&#x27;</span>,<span class="string">&#x27;G&#x27;</span>,<span class="string">&#x27;r&#x27;</span>,<span class="string">&#x27;5&#x27;</span>,<span class="string">&#x27;A&#x27;</span>,<span class="string">&#x27;t&#x27;</span>,<span class="string">&#x27;S&#x27;</span>,<span class="string">&#x27;p&#x27;</span>,<span class="string">&#x27;5&#x27;</span>,<span class="string">&#x27;5&#x27;</span>,<span class="string">&#x27;d&#x27;</span>,<span class="string">&#x27;R&#x27;</span>,<span class="string">&#x27;a&#x27;</span>,<span class="string">&#x27;c&#x27;</span>,<span class="string">&#x27;e&#x27;</span>,<span class="string">&#x27;r&#x27;</span>];</span><br><span class="line"><span class="variable language_">console</span>.<span class="title function_">log</span>(arr.<span class="property">length</span>); <span class="comment">// 16 ✓ 满足第一个条件</span></span><br></pre></td></tr></table></figure>
-
-<h4 id="关键点2"><a href="#关键点2" class="headerlink" title="关键点2:"></a>关键点2:</h4><p>数组的toLowerCase()行为</p>
-<p>由于数组没有toLowerCase()方法，当调用时:</p>
-<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">try</span> &#123;</span><br><span class="line">    checkcode = checkcode.<span class="title function_">toLowerCase</span>(); <span class="comment">// 数组调用字符串方法</span></span><br><span class="line">&#125; <span class="keyword">catch</span> (__) &#123;&#125; <span class="comment">// 错误被静默捕获，checkcode 仍然是原数组</span></span><br></pre></td></tr></table></figure>
-
-<h4 id="关键点3"><a href="#关键点3" class="headerlink" title="关键点3:"></a>关键点3:</h4><p>由于错误发生，if(checkcode !&#x3D;&#x3D; “aGr5AtSp55dRacer”) 这行代码根本没有执行！</p>
-<p>程序直接跳到 catch 后面的 res.status(200)，返回成功！</p>
-
+        <li class="card-archive-list-item">
+          <a class="card-archive-list-link" href="/archives/2025/09/">
+            <span class="card-archive-list-date">
+              September 2025
+            </span>
+            <span class="card-archive-list-count">2</span>
+          </a>
+        </li>
       
-    </div>
-    <footer class="article-footer">
-      <a data-url="http://example.com/2025/09/21/web%E5%A4%8D%E7%8E%B0/" data-id="cmfts4y940000og7qba6qb5lp" data-title="web复现" class="article-share-link"><span class="fa fa-share">Share</span></a>
-      
-      
-      
-    </footer>
-  </div>
-  
-</article>
-
-
-
-  
-    <article id="post-记录一次简单的ssti" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
-  <div class="article-meta">
-    <a href="/2025/09/19/%E8%AE%B0%E5%BD%95%E4%B8%80%E6%AC%A1%E7%AE%80%E5%8D%95%E7%9A%84ssti/" class="article-date">
-  <time class="dt-published" datetime="2025-09-19T09:26:46.000Z" itemprop="datePublished">2025-09-19</time>
-</a>
-    
-  </div>
-  <div class="article-inner">
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="p-name article-title" href="/2025/09/19/%E8%AE%B0%E5%BD%95%E4%B8%80%E6%AC%A1%E7%AE%80%E5%8D%95%E7%9A%84ssti/">记录一次简单的ssti</a>
-    </h1>
-  
-
-      </header>
-    
-    <div class="e-content article-entry" itemprop="articleBody">
-      
-        <p><img src="/2025/09/19/%E8%AE%B0%E5%BD%95%E4%B8%80%E6%AC%A1%E7%AE%80%E5%8D%95%E7%9A%84ssti/%E8%AE%B0%E5%BD%95%E4%B8%80%E6%AC%A1%E7%AE%80%E5%8D%95%E7%9A%84ssti/1758278367839.png" alt="1"></p>
-<p>这是一个简单的ssti漏洞，首先我们找到了这个路由，并看到了模板渲染这么一个函数，以及一个rc4加密。然后直接使用脚本，把RC4算法给弄出来。以下是脚本:</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">python</span><br></pre></td></tr></table></figure>
-
-<p>from urllib.parse import quote</p>
-<p>def rc4_main(key&#x3D;”init_key”, message&#x3D;”init_message”):</p>
-<pre><code># print(&quot;RC4加密主函数&quot;)
-
-s_box=rc4_init_sbox(key)
-
-crypt=str(rc4_excrypt(message, s_box))
-
-return crypt
-</code></pre>
-<p>def rc4_init_sbox(key):</p>
-<pre><code>s_box=list(range(256))
-
-# print(&quot;原来的 s 盒：%s&quot; % s_box)
-
-j=0
-
-for i in range(256):
-
-j= (j+s_box[i] +ord(key[i%len(key)])) %256
-
-s_box[i], s_box[j] =s_box[j], s_box[i]
-
-# print(&quot;混乱后的 s 盒：%s&quot;% s_box)
-
-return s_box
-</code></pre>
-<p>def rc4_excrypt(plain, box):</p>
-<pre><code># print(&quot;调用加密程序成功。&quot;)
-
-res= []
-
-i=j=0
-
-for s in plain:
-
-i= (i+1) %256
-
-j= (j+box[i]) %256
-
-box[i], box[j] =box[j], box[i]
-
-t= (box[i] +box[j]) %256
-
-k=box[t]
-
-res.append(chr(ord(s) ^k))
-
-# print(&quot;res用于加密字符串，加密后是：%res&quot; %res)
-
-cipher=&quot;&quot;.join(res)
-
-print(&quot;加密后的字符串是：%s&quot;%quote(cipher))
-
-# print(&quot;加密后的输出(经过编码):&quot;)
-
-# print(str(base64.b64encode(cipher.encode(&#39;utf-8&#39;)), &#39;utf-8&#39;))
-
-returnstr(base64.b64encode(cipher.encode(&#39;utf-8&#39;)), &#39;utf-8&#39;)
-</code></pre>
-<p>rc4_main(“key”, “text”)     #这里的key为HereIsTreasure   text为要写入的内容<br>*&#x2F;&#x2F;</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"></span><br></pre></td></tr></table></figure>
-
-<p>这里直接构造payload:{{''.__class__.__mro__[2].__subclasses__()}}  这里用mro不用base的原因是，base在python3适用，Python2适用于mro</p>
-<p><img src="https://raw.githubusercontent.com/hack-xx/hu/main/img/%E5%B1%8F%E5%B9%95%E6%88%AA%E5%9B%BE%202025-09-19%20190752.png" alt="2"></p>
-<p>发现这里有一个file可以利用，直接{{''.__class__.__mro__[2].__subclasses()[40].read('/flag.txt).read())__}}</p>
-<p><img src="https://raw.githubusercontent.com/hack-xx/hu/main/img/ssti.png" title="3"></p>
-<p>除此之外还有其他方法可以进行，不止这一种</p>
-<p>上面的是文件类为:&lt;type ‘file’&gt;</p>
-<p>其他有用类的索引还有:</p>
-<p>os._wrap_close</p>
-<p>subprocess.Popen</p>
-<p>socket.socket</p>
-<p><code>io.TextIOWrapper</code>（可用于文件操作，但需要更多参数）</p>
-<p>遇到这些之后可以 <code>&lt;code&gt;</code><code>&lt;code&gt;</code></p>
-<p>* </p>
-        
-          <p class="article-more-link">
-            <a href="/2025/09/19/%E8%AE%B0%E5%BD%95%E4%B8%80%E6%AC%A1%E7%AE%80%E5%8D%95%E7%9A%84ssti/#more">Read More</a>
-          </p>
-        
-      
-    </div>
-    <footer class="article-footer">
-      <a data-url="http://example.com/2025/09/19/%E8%AE%B0%E5%BD%95%E4%B8%80%E6%AC%A1%E7%AE%80%E5%8D%95%E7%9A%84ssti/" data-id="cmfqpo5ny0000cs7qeb353yr3" data-title="记录一次简单的ssti" class="article-share-link"><span class="fa fa-share">Share</span></a>
-      
-      
-      
-    </footer>
-  </div>
-  
-</article>
-
-
-
-  
-
-
-</section>
-        
-          <aside id="sidebar">
-  
-    
-
-  
-    
-
-  
-    
-  
-    
-  <div class="widget-wrap">
-    <h3 class="widget-title">Archives</h3>
-    <div class="widget">
-      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2025/09/">September 2025</a></li></ul>
-    </div>
-  </div>
-
-
-  
-    
-  <div class="widget-wrap">
-    <h3 class="widget-title">Recent Posts</h3>
-    <div class="widget">
-      <ul>
-        
-          <li>
-            <a href="/2025/09/21/web%E5%A4%8D%E7%8E%B0/">web复现</a>
-          </li>
-        
-          <li>
-            <a href="/2025/09/19/%E8%AE%B0%E5%BD%95%E4%B8%80%E6%AC%A1%E7%AE%80%E5%8D%95%E7%9A%84ssti/">记录一次简单的ssti</a>
-          </li>
-        
-      </ul>
-    </div>
-  </div>
-
-  
-</aside>
-        
-      </div>
-      <footer id="footer">
-  
-  <div class="outer">
-    <div id="footer-info" class="inner">
-      
-      &copy; 2025 John Doe<br>
-      Powered by <a href="https://hexo.io/" target="_blank">Hexo</a>
-    </div>
-  </div>
-</footer>
-
-    </div>
-    <nav id="mobile-nav">
-  
-    <a href="/" class="mobile-nav-link">Home</a>
-  
-    <a href="/archives" class="mobile-nav-link">Archives</a>
-  
-</nav>
-    
-
-
-<script src="/js/jquery-3.6.4.min.js"></script>
-
-
-
-  
-<script src="/fancybox/jquery.fancybox.min.js"></script>
-
-
-
-
-<script src="/js/script.js"></script>
-
-
-
-
-
-  </div>
-</body>
-</html>
+    </ul>
+  </div><div class="card-widget card-webinfo"><div class="item-headline"><i class="fas fa-chart-line"></i><span>Website Info</span></div><div class="webinfo"><div class="webinfo-item"><div class="item-name">Article Count :</div><div class="item-count">2</div></div><div class="webinfo-item"><div class="item-name">Unique Visitors :</div><div class="item-count" id="busuanzi_value_site_uv"><i class="fa-solid fa-spinner fa-spin"></i></div></div><div class="webinfo-item"><div class="item-name">Page Views :</div><div class="item-count" id="busuanzi_value_site_pv"><i class="fa-solid fa-spinner fa-spin"></i></div></div><div class="webinfo-item"><div class="item-name">Last Update :</div><div class="item-count" id="last-push-date" data-lastPushDate="2025-09-21T14:48:55.536Z"><i class="fa-solid fa-spinner fa-spin"></i></div></div></div></div></div></div></main><footer id="footer"><div class="footer-other"><div class="footer-copyright"><span class="copyright">&copy;&nbsp;2025 By John Doe</span><span class="framework-info"><span>Framework </span><a target="_blank" rel="noopener" href="https://hexo.io">Hexo 7.3.0</a><span class="footer-separator">|</span><span>Theme </span><a target="_blank" rel="noopener" href="https://github.com/jerryc127/hexo-theme-butterfly">Butterfly 5.5.0</a></span></div></div></footer></div><div id="rightside"><div id="rightside-config-hide"><button id="darkmode" type="button" title="Toggle Between Light and Dark Mode"><i class="fas fa-adjust"></i></button><button id="hide-aside-btn" type="button" title="Toggle Between Single-column and Double-column"><i class="fas fa-arrows-alt-h"></i></button></div><div id="rightside-config-show"><button id="rightside-config" type="button" title="Settings"><i class="fas fa-cog fa-spin"></i></button><button id="go-up" type="button" title="Back to Top"><span class="scroll-percent"></span><i class="fas fa-arrow-up"></i></button></div></div><div><script src="/js/utils.js"></script><script src="/js/main.js"></script><div class="js-pjax"></div><script async data-pjax src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script></div></body></html>
