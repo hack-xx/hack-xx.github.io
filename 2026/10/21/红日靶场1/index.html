@@ -1,0 +1,237 @@
+<!DOCTYPE html><html lang="en" data-theme="light"><head><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width, initial-scale=1.0,viewport-fit=cover"><title>红日靶场1 | xx的博客</title><meta name="author" content="Hack xx"><meta name="copyright" content="Hack xx"><meta name="format-detection" content="telephone=no"><meta name="theme-color" content="#ffffff"><meta name="description" content="给了三个虚拟机 分别为win7 ，windows server，win2k3 先分析一下，这里面的win7为网络边界的机器，既可以内部通信，又可以与外网联通，因此配备了两张网卡。 打开url发现是phpStudy探针页面 在最下方有一个mysql的数据库，看到这个很难不心动啊，这里先不做网站扫描，直接试试看看能不能登上这个数据库  不得不说，以前的靶场太新手友好了，root root直接登录数据库">
+<meta property="og:type" content="article">
+<meta property="og:title" content="红日靶场1">
+<meta property="og:url" content="http://example.com/2026/10/21/%E7%BA%A2%E6%97%A5%E9%9D%B6%E5%9C%BA1/index.html">
+<meta property="og:site_name" content="xx的博客">
+<meta property="og:description" content="给了三个虚拟机 分别为win7 ，windows server，win2k3 先分析一下，这里面的win7为网络边界的机器，既可以内部通信，又可以与外网联通，因此配备了两张网卡。 打开url发现是phpStudy探针页面 在最下方有一个mysql的数据库，看到这个很难不心动啊，这里先不做网站扫描，直接试试看看能不能登上这个数据库  不得不说，以前的靶场太新手友好了，root root直接登录数据库">
+<meta property="og:locale" content="en_US">
+<meta property="og:image" content="http://example.com/img/xx.JPG">
+<meta property="article:published_time" content="2026-10-21T08:59:13.000Z">
+<meta property="article:modified_time" content="2026-10-22T14:18:44.878Z">
+<meta property="article:author" content="Hack xx">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="http://example.com/img/xx.JPG"><script type="application/ld+json">{
+  "@context": "https://schema.org",
+  "@type": "BlogPosting",
+  "headline": "红日靶场1",
+  "url": "http://example.com/2026/10/21/%E7%BA%A2%E6%97%A5%E9%9D%B6%E5%9C%BA1/",
+  "image": "http://example.com/img/xx.JPG",
+  "datePublished": "2026-10-21T08:59:13.000Z",
+  "dateModified": "2026-10-22T14:18:44.878Z",
+  "author": [
+    {
+      "@type": "Person",
+      "name": "Hack xx",
+      "url": "http://example.com"
+    }
+  ]
+}</script><link rel="shortcut icon" href="/img/favicon.png"><link rel="canonical" href="http://example.com/2026/10/21/%E7%BA%A2%E6%97%A5%E9%9D%B6%E5%9C%BA1/index.html"><link rel="preconnect" href="//cdn.jsdelivr.net"/><link rel="preconnect" href="//busuanzi.ibruce.info"/><link rel="stylesheet" href="/css/index.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free/css/all.min.css"><script>
+    (() => {
+      
+    const saveToLocal = {
+      set: (key, value, ttl) => {
+        if (!ttl) return
+        const expiry = Date.now() + ttl * 86400000
+        localStorage.setItem(key, JSON.stringify({ value, expiry }))
+      },
+      get: key => {
+        const itemStr = localStorage.getItem(key)
+        if (!itemStr) return undefined
+        const { value, expiry } = JSON.parse(itemStr)
+        if (Date.now() > expiry) {
+          localStorage.removeItem(key)
+          return undefined
+        }
+        return value
+      }
+    }
+
+    window.btf = {
+      saveToLocal,
+      getScript: (url, attr = {}) => new Promise((resolve, reject) => {
+        const script = document.createElement('script')
+        script.src = url
+        script.async = true
+        Object.entries(attr).forEach(([key, val]) => script.setAttribute(key, val))
+        script.onload = script.onreadystatechange = () => {
+          if (!script.readyState || /loaded|complete/.test(script.readyState)) resolve()
+        }
+        script.onerror = reject
+        document.head.appendChild(script)
+      }),
+      getCSS: (url, id) => new Promise((resolve, reject) => {
+        const link = document.createElement('link')
+        link.rel = 'stylesheet'
+        link.href = url
+        if (id) link.id = id
+        link.onload = link.onreadystatechange = () => {
+          if (!link.readyState || /loaded|complete/.test(link.readyState)) resolve()
+        }
+        link.onerror = reject
+        document.head.appendChild(link)
+      }),
+      addGlobalFn: (key, fn, name = false, parent = window) => {
+        if (!false && key.startsWith('pjax')) return
+        const globalFn = parent.globalFn || {}
+        globalFn[key] = globalFn[key] || {}
+        globalFn[key][name || Object.keys(globalFn[key]).length] = fn
+        parent.globalFn = globalFn
+      }
+    }
+  
+      
+      const activateDarkMode = () => {
+        document.documentElement.setAttribute('data-theme', 'dark')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#0d0d0d')
+        }
+      }
+      const activateLightMode = () => {
+        document.documentElement.setAttribute('data-theme', 'light')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#ffffff')
+        }
+      }
+
+      btf.activateDarkMode = activateDarkMode
+      btf.activateLightMode = activateLightMode
+
+      const theme = saveToLocal.get('theme')
+    
+          theme === 'dark' ? activateDarkMode() : theme === 'light' ? activateLightMode() : null
+        
+      
+      const asideStatus = saveToLocal.get('aside-status')
+      if (asideStatus !== undefined) {
+        document.documentElement.classList.toggle('hide-aside', asideStatus === 'hide')
+      }
+    
+      
+    const detectApple = () => {
+      if (/iPad|iPhone|iPod|Macintosh/.test(navigator.userAgent)) {
+        document.documentElement.classList.add('apple')
+      }
+    }
+    detectApple()
+  
+    })()
+  </script><script>const GLOBAL_CONFIG = {
+  root: '/',
+  algolia: undefined,
+  localSearch: undefined,
+  translate: undefined,
+  highlight: {"plugin":"highlight.js","highlightCopy":true,"highlightLang":true,"highlightHeightLimit":false,"highlightFullpage":false,"highlightMacStyle":false},
+  copy: {
+    success: 'Copy Successful',
+    error: 'Copy Failed',
+    noSupport: 'Browser Not Supported'
+  },
+  relativeDate: {
+    homepage: false,
+    post: false
+  },
+  runtime: '',
+  dateSuffix: {
+    just: 'Just now',
+    min: 'minutes ago',
+    hour: 'hours ago',
+    day: 'days ago',
+    month: 'months ago'
+  },
+  copyright: undefined,
+  lightbox: 'null',
+  Snackbar: undefined,
+  infinitegrid: {
+    js: 'https://cdn.jsdelivr.net/npm/@egjs/infinitegrid/dist/infinitegrid.min.js',
+    buttonText: 'Load More'
+  },
+  isPhotoFigcaption: false,
+  islazyloadPlugin: false,
+  isAnchor: false,
+  percent: {
+    toc: true,
+    rightside: false,
+  },
+  autoDarkmode: false
+}</script><script id="config-diff">var GLOBAL_CONFIG_SITE = {
+  title: '红日靶场1',
+  isHighlightShrink: false,
+  isToc: true,
+  pageType: 'post'
+}</script><meta name="generator" content="Hexo 7.3.0"></head><body><div class="post" id="body-wrap"><header class="post-bg" id="page-header"><nav id="nav"><span id="blog-info"><a class="nav-site-title" href="/"><span class="site-name">xx的博客</span></a><a class="nav-page-title" href="/"><span class="site-name">红日靶场1</span><span class="site-name"><i class="fa-solid fa-circle-arrow-left"></i><span>  Back to Home</span></span></a></span><div id="menus"></div></nav><div id="post-info"><h1 class="post-title">红日靶场1</h1><div id="post-meta"><div class="meta-firstline"><span class="post-meta-date"><i class="far fa-calendar-alt fa-fw post-meta-icon"></i><span class="post-meta-label">Created</span><time class="post-meta-date-created" datetime="2026-10-21T08:59:13.000Z" title="Created 2026-10-21 16:59:13">2026-10-21</time><span class="post-meta-separator">|</span><i class="fas fa-history fa-fw post-meta-icon"></i><span class="post-meta-label">Updated</span><time class="post-meta-date-updated" datetime="2026-10-22T14:18:44.878Z" title="Updated 2026-10-22 22:18:44">2026-10-22</time></span></div><div class="meta-secondline"><span class="post-meta-separator">|</span><span class="post-meta-pv-cv" id="" data-flag-title=""><i class="far fa-eye fa-fw post-meta-icon"></i><span class="post-meta-label">Post Views:</span><span id="busuanzi_value_page_pv"><i class="fa-solid fa-spinner fa-spin"></i></span></span></div></div></div></header><main class="layout" id="content-inner"><div id="post"><article class="container post-content" id="article-container"><p>给了三个虚拟机 分别为win7 ，windows server，win2k3</p>
+<p>先分析一下，这里面的win7为网络边界的机器，既可以内部通信，又可以与外网联通，因此配备了两张网卡。</p>
+<p>打开url发现是phpStudy探针页面<img src="https://raw.githubusercontent.com/hack-xx/hu/main/img/20261021171231.png" alt="img"></p>
+<p>在最下方有一个mysql的数据库，看到这个很难不心动啊，这里先不做网站扫描，直接试试看看能不能登上这个数据库</p>
+<p><img src="https://raw.githubusercontent.com/hack-xx/hu/main/img/20261021171430.png"></p>
+<p>不得不说，以前的靶场太新手友好了，root root直接登录数据库<img src="https://raw.githubusercontent.com/hack-xx/hu/main/img/20261021171542.png" alt="img"></p>
+<p>翻了一下翻到一个admin账户，可惜密码是md5存储的破解不出来，直接改密码</p>
+<p><img src="https://raw.githubusercontent.com/hack-xx/hu/main/img/20261021173542.png"></p>
+<p>改成123456，不知道有啥用，但是先改了，后面都尝试登录一下<img src="https://raw.githubusercontent.com/hack-xx/hu/main/img/20261021173652.png" alt="img"></p>
+<p>来扫一下端口，看看有没有其他服务，发现只有80端口可以访问</p>
+<p><img src="https://raw.githubusercontent.com/hack-xx/hu/main/img/20261021174323.png"></p>
+<p>再扫一扫目录呢，用御剑来试一下，差点给我御剑扫崩了</p>
+<p><img src="https://raw.githubusercontent.com/hack-xx/hu/main/img/20261021175437.png"></p>
+<p>下载这个beifen.rar，解压以后的文件就是这些<img src="https://raw.githubusercontent.com/hack-xx/hu/main/img/20261021180813.png" alt="img"></p>
+<p>就一些配置文件，我估计应该是得先扫后台把config.php给扫出来再登录的，没想到直接弱密码登录了，也算殊途同归吧</p>
+<p>继续回到数据库，试试写马，发现写入不成功<img src="https://raw.githubusercontent.com/hack-xx/hu/main/img/20261021181924.png" alt="img"></p>
+<p>原因是secure_file_priv 把 <code>INTO OUTFILE/DUMPFILE</code> 锁死到指定目录；<code>..</code>、大小写、<code>\\</code>、<code>/</code> 都无法绕过，因为 MySQL 会先 realpath 归一化再比较，但是日志文件不受这个开关限制。来检验一下</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">SHOW VARIABLES LIKE &#x27;secure_file_priv&#x27;;</span><br><span class="line">SHOW VARIABLES LIKE &#x27;general_log%&#x27;;</span><br><span class="line">SELECT @@version, @@version_compile_os, current_user();</span><br></pre></td></tr></table></figure>
+
+<p><img src="https://raw.githubusercontent.com/hack-xx/hu/main/img/20261021182508.png"></p>
+<p>讲一下日志文件写马的原理。当设置好日志文件地址以后，我们所执行的所有查询都会被写入到指定文件，包括马也是一样的</p>
+<p><img src="https://raw.githubusercontent.com/hack-xx/hu/main/img/20261021183304.png"></p>
+<p><img src="https://raw.githubusercontent.com/hack-xx/hu/main/img/20261021183540.png"></p>
+<p>蚁剑连接一下<img src="https://raw.githubusercontent.com/hack-xx/hu/main/img/20261021191533.png"></p>
+<p>创建自己的用户，在用户名后面加上$可以隐藏用户名，最后再修改注册表，让在登录界面的时候不显示hackxx$<img src="https://raw.githubusercontent.com/hack-xx/hu/main/img/20261021193250.png" alt="img"></p>
+<p>探测到win7是有两张网卡的，还有一张在内网使用192.168.52.143</p>
+<p>接下来探测内网存活机器，扫网段</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">@echo off</span><br><span class="line">set OUT=C:\phpStudy\WWW\alive.txt</span><br><span class="line">if exist &quot;%OUT%&quot; del &quot;%OUT%&quot;</span><br><span class="line">echo ===== PING SWEEP 192.168.52.0/24 ===== &gt; &quot;%OUT%&quot;</span><br><span class="line">for /L %%i in (1,1,254) do (</span><br><span class="line">  ping -n 1 -w 120 192.168.52.%%i | findstr /i &quot;TTL&quot; &gt;nul &amp;&amp; echo 192.168.52.%%i 存活 &gt;&gt; &quot;%OUT%&quot;</span><br><span class="line">)</span><br><span class="line">echo ===== ARP TABLE ===== &gt;&gt; &quot;%OUT%&quot;</span><br><span class="line">arp -a &gt;&gt; &quot;%OUT%&quot;</span><br><span class="line">echo DONE</span><br><span class="line">type &quot;%OUT%&quot;</span><br></pre></td></tr></table></figure>
+
+<p>创建一个bat文件上传到服务器上运行以后访问alive.txt</p>
+<p><img src="https://raw.githubusercontent.com/hack-xx/hu/main/img/20261021191846.png" alt="img"></p>
+<p>除去143以外，138和143应该就是内网的其它两台机器了</p>
+<p><img src="https://raw.githubusercontent.com/hack-xx/hu/main/img/20261021194018.png"></p>
+<p>当时在配置环境的时候也是遇到ping不通的情况， 当时还以为环境配错了，想了半天，于是在里面ping我的kali机器，发现可以ping通，里面ping不通的原因应该就出在防火墙上面<img src="https://raw.githubusercontent.com/hack-xx/hu/main/img/20261021194311.png"></p>
+<p>没什么好说的 传马吧</p>
+<p><img src="https://raw.githubusercontent.com/hack-xx/hu/main/img/20261022170856.png"></p>
+<p>返回cs查看成功上线</p>
+<p><img src="https://raw.githubusercontent.com/hack-xx/hu/main/img/20261022171009.png" alt="img"></p>
+<p>ps先打印一下进程，可以看到我们的72.exe</p>
+<p><img src="https://raw.githubusercontent.com/hack-xx/hu/main/img/20261022173822.png"></p>
+<p>再生成一个msf的payload来迁移进程吧，因为cs里面我尝试偷令牌发现失败了，现在转到msf<img src="https://raw.githubusercontent.com/hack-xx/hu/main/img/20261022175236.png"></p>
+<p>没毛 成功获取高权限</p>
+<p><img src="https://raw.githubusercontent.com/hack-xx/hu/main/img/20261022180559.png"></p>
+<p>抓取一下明文账号，不得不说msf还是很好用的</p>
+<p><img src="https://raw.githubusercontent.com/hack-xx/hu/main/img/20261022181045.png"></p>
+<p>但是我们还是联动cs吧，把msf的会话传到cs里面去</p>
+<p><img src="https://raw.githubusercontent.com/hack-xx/hu/main/img/20261022194151.png"></p>
+<p>什么，居然没上，我chocy喂，msf联动cs你给我联动好了呀<img src="https://raw.githubusercontent.com/hack-xx/hu/main/img/20261022194233.png" alt="img"></p>
+<p>既然如此 那我也不强求了，本来想炫技的，跑路了家人们。直接getsystem。</p>
+<p><img src="https://raw.githubusercontent.com/hack-xx/hu/main/img/20261022200653.png"></p>
+<p>这里提供了两种提权的方式，一种是msf进程迁移 另一种是cs直接getsystem 本来想把msf的会话转到cs上的(),后面我载荷设置的http也无济于事，推测应该是这个版本的cs不兼容吧</p>
+<p>开始横向渗透，还记得最开始的时候我们写了一个psl脚本来探测内网吗?现在我们来探测内网两台机器开放的端口</p>
+<p>这里提供三种方法：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">方法一:</span><br><span class="line">portscan 最舒服的，最省事的</span><br><span class="line">方法二:</span><br><span class="line">cs开代理 socks 2778</span><br><span class="line">kali里面 echo &quot;127.0.0.1 2778 &quot; &gt;&gt; /etc/proxychains4.conf</span><br><span class="line">proxychains4 nmap </span><br><span class="line">方法三:</span><br><span class="line">smf use auxiliary/scanner/portscan/tcp</span><br><span class="line">set rport 1-65535 &amp; set rhost xxx.xxx.xxx.xxx</span><br><span class="line">set threads 50</span><br><span class="line">run</span><br></pre></td></tr></table></figure>
+
+<p>portscan 192.168.52.141 1-65535 </p>
+<p><img src="https://raw.githubusercontent.com/hack-xx/hu/main/img/20261022202627.png"></p>
+<p>看到有一个445端口，好像是永恒之蓝，探测了一下，可以利用，直接打。MSF 发现设的 <code>LHOST=192.168.52.143</code> 正好是 session 1 所在主机的地址，于是<strong>自动通过 session 1 的 meterpreter 在跳板机上开了反向端口转发</strong>，把 4444 端口接到本地</p>
+<p><img src="https://raw.githubusercontent.com/hack-xx/hu/main/img/20261022210603.png"></p>
+<p><img src="https://raw.githubusercontent.com/hack-xx/hu/main/img/20261022211603.png"></p>
+<p>看看这台机器上的防火墙和av情况，发现只有一个360解压的。先抓票据</p>
+<p><img src="https://raw.githubusercontent.com/hack-xx/hu/main/img/20261022211853.png"></p>
+<p>这台拿下，另一台扫的有点慢，但还是有445端口的<img src="https://raw.githubusercontent.com/hack-xx/hu/main/img/20261022212718.png"></p>
+<p>这个模块只支持x64 不支持x86的。突然想到我这个138的好像已经是DC了……</p>
+<p><img src="https://raw.githubusercontent.com/hack-xx/hu/main/img/20261022213824.png"></p>
+<p>域失守，黄金票据和另一台内网的hash已经导入出来了</p>
+<p><img src="https://raw.githubusercontent.com/hack-xx/hu/main/img/20261022214558.png"></p>
+<p>拿下</p>
+<p><img src="https://raw.githubusercontent.com/hack-xx/hu/main/img/20261022221246.png"></p>
+<h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><p>老靶场打着还是很爽的，还有445这种老洞，而且没有现代av和erd动态检测。</p>
+<p>这里讲一些cs添加机器的方法</p>
+<p><img src="https://raw.githubusercontent.com/hack-xx/hu/main/img/20261022221432.png"></p>
+<p>这里如果是nt &#x2F;sys的话得先rev2self</p>
+<p>再make_token god\administrator &lt;明文密码&gt;</p>
+<p>或者pth god\administrator d0f5f96a9feb2bc3cfcc7df7e450e569</p>
+<p>再创建smb监听器来转发流量</p>
+</article><div class="post-copyright"><div class="post-copyright__author"><span class="post-copyright-meta"><i class="fas fa-circle-user fa-fw"></i>Author: </span><span class="post-copyright-info"><a href="http://example.com">Hack xx</a></span></div><div class="post-copyright__type"><span class="post-copyright-meta"><i class="fas fa-square-arrow-up-right fa-fw"></i>Link: </span><span class="post-copyright-info"><a href="http://example.com/2026/10/21/%E7%BA%A2%E6%97%A5%E9%9D%B6%E5%9C%BA1/">http://example.com/2026/10/21/%E7%BA%A2%E6%97%A5%E9%9D%B6%E5%9C%BA1/</a></span></div><div class="post-copyright__notice"><span class="post-copyright-meta"><i class="fas fa-circle-exclamation fa-fw"></i>Copyright Notice: </span><span class="post-copyright-info">All articles on this blog are licensed under <a target="_blank" rel="noopener" href="https://creativecommons.org/licenses/by-nc-sa/4.0/">CC BY-NC-SA 4.0</a> unless otherwise stated.</span></div></div><div class="tag_share"><div class="post-share"><div class="social-share" data-image="/img/xx.JPG" data-sites="facebook,twitter,wechat,weibo,qq"></div><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/butterfly-extsrc/sharejs/dist/css/share.min.css" media="print" onload="this.media='all'"><script src="https://cdn.jsdelivr.net/npm/butterfly-extsrc/sharejs/dist/js/social-share.min.js" defer></script></div></div><nav class="pagination-post" id="pagination"><a class="pagination-related full-width" href="/2026/04/11/plans/n-minsite-writeup/" title=""><div class="cover" style="background: var(--default-bg-color)"></div><div class="info text-right"><div class="info-1"><div class="info-item-1">Next</div><div class="info-item-2"></div></div><div class="info-2"><div class="info-item-1">N-MinSite CTF 解题方案题目信息 目标: http://114.66.24.221:35708 CMS: MaxSite CMS (PHP&#x2F;8.1.33 + Apache&#x2F;2.4.62 Debian) 框架: CodeIgniter Session FLAG 位置: /admin 页面（需要管理员权限） Admin Bot: 每隔一段时间访问首页  已收集的关键信息首页关键提示 首页从 /pages/ 目录下的 .html&#x2F;.htm 文件直接组装，无过滤 “Writers use the same content mirror as the page uploader” — 有页面上传机制 “Administrators only like to read the first article” — Admin Bot 只读第一篇文章 现有文件: maintenance-notice.html（第一篇）, welcome.html（第二篇）  Maintenance Trace 泄露 URL: /require-maxsite/Y3RmL3...</div></div></div></a></nav></div><div class="aside-content" id="aside-content"><div class="card-widget card-info text-center"><div class="avatar-img"><img src="/img/xx.JPG" onerror="this.onerror=null;this.src='/img/friend_404.gif'" alt="avatar"/></div><div class="author-info-name">Hack xx</div><div class="author-info-description"></div><div class="site-data"><a href="/archives/"><div class="headline">Articles</div><div class="length-num">15</div></a><a href="/tags/"><div class="headline">Tags</div><div class="length-num">0</div></a><a href="/categories/"><div class="headline">Categories</div><div class="length-num">0</div></a></div><a id="card-info-btn" target="_blank" rel="noopener" href="https://github.com/hack-xx"><i class="fab fa-github"></i><span>Follow Me</span></a></div><div class="card-widget card-announcement"><div class="item-headline"><i class="fas fa-bullhorn fa-shake"></i><span>Announcement</span></div><div class="announcement_content">有事联系QQ3038689262</div></div><div class="sticky_layout"><div class="card-widget" id="card-toc"><div class="item-headline"><i class="fas fa-stream"></i><span>Contents</span><span class="toc-percentage"></span></div><div class="toc-content"><ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%80%BB%E7%BB%93"><span class="toc-number">1.</span> <span class="toc-text">总结</span></a></li></ol></div></div><div class="card-widget card-recent-post"><div class="item-headline"><i class="fas fa-history"></i><span>Recent Posts</span></div><div class="aside-list"><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/2026/10/21/%E7%BA%A2%E6%97%A5%E9%9D%B6%E5%9C%BA1/" title="红日靶场1">红日靶场1</a><time datetime="2026-10-21T08:59:13.000Z" title="Created 2026-10-21 16:59:13">2026-10-21</time></div></div><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/2026/04/11/plans/n-minsite-writeup/" title="Untitled">Untitled</a><time datetime="2026-04-11T12:03:33.284Z" title="Created 2026-04-11 20:03:33">2026-04-11</time></div></div><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/2026/04/08/hongri-2-writeup/" title="hongri-2-writeup">hongri-2-writeup</a><time datetime="2026-04-08T09:05:42.000Z" title="Created 2026-04-08 17:05:42">2026-04-08</time></div></div><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/2025/12/04/%E5%88%86%E7%A6%BB%E5%85%8D%E6%9D%80/" title="分离免杀">分离免杀</a><time datetime="2025-12-04T11:49:16.000Z" title="Created 2025-12-04 19:49:16">2025-12-04</time></div></div><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/2025/11/21/LD-PRELOAD-%E5%8A%AB%E6%8C%81%E9%85%8D%E5%90%88SO%E6%B3%A8%E5%85%A5/" title="LD_PRELOAD 劫持配合SO注入">LD_PRELOAD 劫持配合SO注入</a><time datetime="2025-11-21T10:49:34.000Z" title="Created 2025-11-21 18:49:34">2025-11-21</time></div></div></div></div></div></div></main><footer id="footer"><div class="footer-other"><div class="footer-copyright"><span class="copyright">&copy;&nbsp;2025 - 2026 By Hack xx</span><span class="framework-info"><span>Framework </span><a target="_blank" rel="noopener" href="https://hexo.io">Hexo 7.3.0</a><span class="footer-separator">|</span><span>Theme </span><a target="_blank" rel="noopener" href="https://github.com/jerryc127/hexo-theme-butterfly">Butterfly 5.5.0</a></span></div></div></footer></div><div id="rightside"><div id="rightside-config-hide"><button id="readmode" type="button" title="Reading Mode"><i class="fas fa-book-open"></i></button><button id="darkmode" type="button" title="Toggle Between Light and Dark Mode"><i class="fas fa-adjust"></i></button><button id="hide-aside-btn" type="button" title="Toggle Between Single-column and Double-column"><i class="fas fa-arrows-alt-h"></i></button></div><div id="rightside-config-show"><button id="rightside-config" type="button" title="Settings"><i class="fas fa-cog fa-spin"></i></button><button class="close" id="mobile-toc-button" type="button" title="Table of Contents"><i class="fas fa-list-ul"></i></button><button id="go-up" type="button" title="Back to Top"><span class="scroll-percent"></span><i class="fas fa-arrow-up"></i></button></div></div><div><script src="/js/utils.js"></script><script src="/js/main.js"></script><div class="js-pjax"></div><script async data-pjax src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script></div></body></html>

